@@ -69,8 +69,8 @@ const cartEmpty = computed(() => state.cart.length === 0);
 </template>
 
 <style lang="scss">
-@import "./assets/scss/base.scss";
-@import "./assets/scss/debug.scss";
+@use "./assets/scss/base.scss" as *;
+@use "./assets/scss/debug.scss" as *;
 
 .app-container {
   min-height: 100vh;

@@ -1,21 +1,21 @@
 <script setup lang="ts">
-import type { ProductCartInterface } from "@/interfaces";
-import { computed } from "vue";
-import CartProductList from "./CartProductList.vue";
+import type { ProductCartInterface } from '@/interfaces'
+import { computed } from 'vue'
+import AppCartProductList from './AppCartProductList.vue'
 
 const props = defineProps<{
-  cart: ProductCartInterface[];
-}>();
+  cart: ProductCartInterface[]
+}>()
 
 const totalPrice = computed(() =>
   props.cart.reduce((acc, product) => {
-    return acc + product.price * product.quantity;
-  }, 0)
-);
+    return acc + product.price * product.quantity
+  }, 0),
+)
 
 const emit = defineEmits<{
-  (e: "removeProductFromCart", productId: number): void;
-}>();
+  (e: 'removeProductFromCart', productId: number): void
+}>()
 </script>
 
 <template>

@@ -1,48 +1,39 @@
 <script setup lang="ts">
-import TheHeader from "./components/Header.vue";
-import TheFooter from "./components/Footer.vue";
-import Shop from "./components/Shop/Shop.vue";
-import Cart from "./components/Cart/Cart.vue";
-import data from "./data/product";
-import { computed, reactive } from "vue";
-import type { ProductCartInterface, ProductInterface } from "./interfaces";
+import AppHeader from './components/AppHeader.vue'
+import AppFooter from './components/AppFooter.vue'
+import AppShop from './components/Shop/AppShop.vue'
+import AppCart from './components/Cart/AppCart.vue'
+import data from './data/product'
+import { computed, ref } from 'vue'
+import type { ProductCartInterface, ProductInterface } from './interfaces'
 
-const state = reactive<{
-  products: ProductInterface[];
-  cart: ProductCartInterface[];
-}>({
-  products: data,
-  cart: [],
-});
+const products = ref<ProductInterface[]>(data)
+const cart = ref<ProductCartInterface[]>([])
 
 function addProductToCart(productId: number): void {
-  const product = state.products.find((product) => product.id === productId);
+  const product = products.value.find((product) => product.id === productId)
   if (product) {
-    const productInCart = state.cart.find(
-      (product) => product.id === productId
-    );
+    const productInCart = cart.value.find((product) => product.id === productId)
     if (productInCart) {
-      productInCart.quantity++;
+      productInCart.quantity++
     } else {
-      state.cart.push({ ...product, quantity: 1 });
+      cart.value.push({ ...product, quantity: 1 })
     }
   }
 }
 
 function removeProductFromCart(productId: number): void {
-  const productFromCart = state.cart.find(
-    (product) => product.id === productId
-  );
+  const productFromCart = cart.value.find((product) => product.id === productId)
   if (productFromCart) {
     if (productFromCart.quantity === 1) {
-      state.cart = state.cart.filter((product) => product.id !== productId);
+      cart.value = cart.value.filter((product) => product.id !== productId)
     } else {
-      productFromCart.quantity--;
+      productFromCart.quantity--
     }
   }
 }
 
-const cartEmpty = computed(() => state.cart.length === 0);
+const cartEmpty = computed(() => cart.value.length === 0)
 </script>
 
 <template>
@@ -52,36 +43,32 @@ const cartEmpty = computed(() => state.cart.length === 0);
       gridEmpty: cartEmpty,
     }"
   >
-    <TheHeader class="header" />
-    <Shop
-      :products="state.products"
-      @add-product-to-cart="addProductToCart"
-      class="shop"
-    />
+    <AppHeader class="header" />
+    <Shop :products="products" @add-product-to-cart="addProductToCart" class="shop" />
     <Cart
       v-if="!cartEmpty"
-      :cart="state.cart"
+      :cart="cart"
       class="cart"
       @remove-product-from-cart="removeProductFromCart"
     />
-    <TheFooter class="footer" />
+    <AppFooter class="footer" />
   </div>
 </template>
 
 <style lang="scss">
-@use "./assets/scss/base.scss" as *;
-@use "./assets/scss/debug.scss" as *;
+@use './assets/scss/base.scss' as *;
+@use './assets/scss/debug.scss' as *;
 
 .app-container {
   min-height: 100vh;
   display: grid;
-  grid-template-areas: "header header" "shop cart" "footer footer";
+  grid-template-areas: 'header header' 'shop cart' 'footer footer';
   grid-template-columns: 75% 25%;
   grid-template-rows: 48px auto 48px;
 }
 
 .gridEmpty {
-  grid-template-areas: "header" "shop" "footer";
+  grid-template-areas: 'header' 'shop' 'footer';
   grid-template-columns: 100%;
 }
 

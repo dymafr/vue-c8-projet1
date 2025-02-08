@@ -21,7 +21,7 @@ const emit = defineEmits<{
 <template>
   <div class="p-20 d-flex flex-column">
     <h2 class="mb-10">Panier</h2>
-    <CartProductList
+    <AppCartProductList
       class="flex-fill"
       :cart="cart"
       @remove-product-from-cart="emit('removeProductFromCart', $event)"

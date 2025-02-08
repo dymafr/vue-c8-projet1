@@ -44,8 +44,8 @@ const cartEmpty = computed(() => cart.value.length === 0)
     }"
   >
     <AppHeader class="header" />
-    <Shop :products="products" @add-product-to-cart="addProductToCart" class="shop" />
-    <Cart
+    <AppShop :products="products" @add-product-to-cart="addProductToCart" class="shop" />
+    <AppCart
       v-if="!cartEmpty"
       :cart="cart"
       class="cart"
